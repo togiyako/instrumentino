@@ -1,4 +1,4 @@
-from __future__ import division
+
 from instrumentino.controllers.arduino.mks import MKSMassFlowController
 from instrumentino.controllers.arduino import ArduinoI2cDac
 

@@ -1,4 +1,4 @@
-from __future__ import division
+
 __author__ = 'yoelk'
 
 import sys
@@ -7,7 +7,7 @@ import serial
 import glob
 from serial.serialutil import SerialException
 try:
-    import _winreg as winreg
+    import winreg as winreg
 except ImportError:
     pass
 import itertools
@@ -69,4 +69,4 @@ class SerialUtil():
             return ports
         
 if __name__ == '__main__':
-    print SerialUtil().getSerialPortsList()
+    print(SerialUtil().getSerialPortsList())

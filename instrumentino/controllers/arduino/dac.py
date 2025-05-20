@@ -1,4 +1,4 @@
-from __future__ import division
+
 
 class ArduinoDac(object):
     def __init__(self, dacBits):

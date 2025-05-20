@@ -1,4 +1,4 @@
-from __future__ import division
+
 __author__ = 'yoelk'
 
 from instrumentino import cfg
@@ -17,8 +17,8 @@ class ExecutableListCtrl(object):
     A general list with add, delete and Run buttons. The same infrastructure for the actions' list and the methods' list
     '''
     def __init__(self, parent, panel, columnNumToName, runStartString, listDataItems=[]):
-        self.columnNumToName = OrderedDict([(0, '#')] + columnNumToName.items())
-        self.columnNameToNum = {v: k for k, v in self.columnNumToName.items()}
+        self.columnNumToName = OrderedDict([(0, '#')] + list(columnNumToName.items()))
+        self.columnNameToNum = {v: k for k, v in list(self.columnNumToName.items())}
         self.runStartString = runStartString
         self.panel = panel
         self.runButton = (xrc.XRCCTRL(parent, 'runButton'))
@@ -30,7 +30,7 @@ class ExecutableListCtrl(object):
                                          | ULC.ULC_HAS_VARIABLE_ROW_HEIGHT
                                          | ULC.ULC_SINGLE_SEL)
         self.panel.GetSizer().Add(self.list, 1, wx.EXPAND|wx.ALL|wx.GROW)
-        for idx, name in self.columnNumToName.items():
+        for idx, name in list(self.columnNumToName.items()):
             columnInfo = ULC.UltimateListItem()
             columnInfo._mask = wx.LIST_MASK_TEXT
             columnInfo._text = name
@@ -68,7 +68,7 @@ class ExecutableListCtrl(object):
         '''
         Refresh the list on screen
         '''
-        for idx in self.columnNumToName.keys():
+        for idx in list(self.columnNumToName.keys()):
             self.list.SetColumnWidth(idx, wx.LIST_AUTOSIZE)
         
         self.list.Update()
@@ -83,10 +83,10 @@ class ExecutableListCtrl(object):
         if listDataItem == None:
             return
          
-        insertIndex = self.list.GetFirstSelected() if self.list.GetFirstSelected() != -1 else sys.maxint
+        insertIndex = self.list.GetFirstSelected() if self.list.GetFirstSelected() != -1 else sys.maxsize
         index = self.list.InsertStringItem(insertIndex, '')
         self.list.SetStringItem(index, 0, str(index + 1))
-        for col in self.columnNumToName.keys()[1:]:
+        for col in list(self.columnNumToName.keys())[1:]:
             self.list.SetStringItem(index, col, '')
          
         item = self.list.GetItem(index, 1)

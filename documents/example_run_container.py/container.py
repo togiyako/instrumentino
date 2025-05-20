@@ -1,4 +1,5 @@
-from __future__ import division
+
+
 from instrumentino import Instrument
 from instrumentino import cfg
 from instrumentino.action import SysAction, SysActionParamTime, SysActionParamFloat

@@ -1,4 +1,4 @@
-from __future__ import division
+
 __author__ = 'yoelk'
 
 from ctypes import *
@@ -42,7 +42,7 @@ class LabSmithEIB(InstrumentinoController):
                          'B': VALVE_STATE_B,
                          'closed': VALVE_STATE_CLOSED,
                          'unchanged': VALVE_STATE_UNCHANGED}
-    valveValueToState = {v: k for k, v in valveStateToValue.items()}
+    valveValueToState = {v: k for k, v in list(valveStateToValue.items())}
     
     name = 'LabSmith EIB'
     
@@ -75,24 +75,24 @@ class LabSmithEIB(InstrumentinoController):
         deviceAddresses = DeviceDataArray()
         deviceTypes = DeviceDataArray()
         devicesNum = self.DLL.ScanDevices(self.EIB, byref(deviceAddresses), byref(deviceTypes))
-        print str(devicesNum) + ' devices found:'
+        print(str(devicesNum) + ' devices found:')
         if not devicesNum > 0:
             return False
         for idx in range(devicesNum):
             if deviceTypes[idx] == self.DEVICE_TYPE_SPS01:
-                print 'SPS01 @' + str(deviceAddresses[idx])
+                print('SPS01 @' + str(deviceAddresses[idx]))
                 self.syringePumps[deviceAddresses[idx]] = self.DLL.NewSPS01(self.EIB, c_ubyte(deviceAddresses[idx]))
                 retCode = self.DLL.InitSyringe(self.syringePumps[deviceAddresses[idx]])
                 if retCode == 0:
                     return False
             if deviceTypes[idx] == self.DEVICE_TYPE_4VM01:
-                print '4VM01 @' + str(deviceAddresses[idx])
+                print('4VM01 @' + str(deviceAddresses[idx]))
                 self.valves = self.DLL.New4VM01(self.EIB, c_ubyte(deviceAddresses[idx]))
                 retCode = self.DLL.InitValves(self.valves)
                 if retCode == 0:
                     return False
             if deviceTypes[idx] == self.DEVICE_TYPE_4AM01:
-                print '4AM01 @' + str(deviceAddresses[idx])
+                print('4AM01 @' + str(deviceAddresses[idx]))
                 self.sensors = self.DLL.New4AM01(self.EIB, c_ubyte(deviceAddresses[idx]))
                 retCode = self.DLL.InitSensors(self.sensors)
                 if retCode == 0:
@@ -102,7 +102,7 @@ class LabSmithEIB(InstrumentinoController):
     
     def Close(self):
         self.accessSemaphore.acquire(True)
-        for pump in self.syringePumps.values():
+        for pump in list(self.syringePumps.values()):
             self.DLL.StopSyringe(pump)
         self.accessSemaphore.release()
         
@@ -113,7 +113,7 @@ class LabSmithEIB(InstrumentinoController):
             
     def SetValves(self, **kwargs):
         valves = ['unchanged', 'unchanged', 'unchanged', 'unchanged']
-        for name, value in kwargs.items():
+        for name, value in list(kwargs.items()):
             valveNum = int(name.replace('valve', ''))
             valves[valveNum-1] = value
         

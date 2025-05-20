@@ -1,4 +1,4 @@
-from __future__ import division
+
 from datetime import datetime
 import time
 import os
@@ -105,7 +105,7 @@ def IsCompOnline(sysComp):
     global controllers
     for c in controllers:
         if isinstance(c, sysComp.controllerClass):
-            return c.online
+            return bool(c.online)
         
     # if reached here, it's not online
     return False
@@ -172,10 +172,12 @@ def Log(text):
     global logTextCtrl
     global commandsLogFile
     
-    if logTextCtrl != None:
+    if logTextCtrl is not None:
         logTextCtrl.WriteText(text + '\r')
-    if commandsLogFile != None:
+
+    if commandsLogFile is not None and not commandsLogFile.closed:
         commandsLogFile.write(text + '\r')
+        commandsLogFile.flush()
         
 def LogFromOtherThread(text, critical=False):
     '''

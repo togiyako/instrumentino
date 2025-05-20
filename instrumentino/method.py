@@ -1,4 +1,4 @@
-from __future__ import division
+
 __author__ = 'yoelk'
 
 import wx
@@ -8,7 +8,7 @@ import sys
 from instrumentino import cfg
 import pickle
 import wx.lib.masked as  masked
-from executable_listctrl import RunnableItem, ExecutableListCtrl
+from .executable_listctrl import RunnableItem, ExecutableListCtrl
 
 class SysMethod(RunnableItem):
     '''

@@ -1,4 +1,4 @@
-from __future__ import division
+
 __author__ = 'yoelk'
 
 from instrumentino import cfg
@@ -102,7 +102,7 @@ class SysVarAnalog(SysVar):
         Create a panel to represent the variable
         '''
         rows = 2 if self.editable else 1
-        sizer = wx.FlexGridSizer(rows=rows, cols=2)
+        sizer = wx.FlexGridSizer(rows, 2, 5, 5)
         panel = wx.Panel(parent)
         panel.SetSizer(sizer)
         sizer.Add(wx.StaticText(panel, label=self.name + ' (' + self.units + '):'))
@@ -148,7 +148,7 @@ class SysVarDigital(SysVar):
         '''
         if self.radioButtons != None and value != None:
             try:
-                for rbName, rb in self.radioButtons.items():
+                for rbName, rb in list(self.radioButtons.items()):
                     rb.SetValue(rbName == value)
             except:
                 pass
@@ -195,7 +195,7 @@ class SysComp(object):
         
         Sub-classes may implement FirstTimeOnline() to do some initialization when communication is established
         '''
-        vars = self.vars.values()
+        vars = list(self.vars.values())
         if len(vars) == 0:
             return None
         
@@ -219,7 +219,7 @@ class SysComp(object):
             self.FirstTimeOnline()
 
         if self.panel != None:
-            for var in self.vars.values():
+            for var in list(self.vars.values()):
                 var.Update()
 
     def FirstTimeOnline(self):

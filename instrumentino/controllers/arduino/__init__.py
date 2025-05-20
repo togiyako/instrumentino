@@ -1,7 +1,6 @@
-from __future__ import division
+
 from instrumentino.comp import SysVarDigital, SysVarAnalog, SysComp
 from instrumentino.controllers import InstrumentinoController
-from exceptions import ValueError
 __author__ = 'yoelk'
 
 from instrumentino import cfg
@@ -95,7 +94,7 @@ class Arduino(InstrumentinoController):
     def CacheUpdate(self, event):
         pins = ''
         # save the keys in case they change while we read
-        keys = self.pinValuesCache.keys()
+        keys = list(self.pinValuesCache.keys())
         for k in keys:
             pins += k + ' '
         
@@ -110,8 +109,8 @@ class Arduino(InstrumentinoController):
             for key, val in zip(keys, values):
                 self.pinValuesCache[key] = int(val)
         except ValueError:
-            print 'Read %s'%(pins.strip())
-            print 'received: ' + valuesStr
+            print('Read %s'%(pins.strip()))
+            print('received: ' + valuesStr)
             
     def PinModeOut(self, pin):
         '''
@@ -359,7 +358,7 @@ class Arduino(InstrumentinoController):
                     return None
         
         if log:
-            print 'we say: ' + txData
+            print('we say: ' + txData)
         if addLineBreak == True:
             txData = txData + '\r'
 
@@ -373,7 +372,7 @@ class Arduino(InstrumentinoController):
             self.accessSemaphore.release()
                     
         if log:
-            print 'Arduino says: ' + rxData
+            print('Arduino says: ' + rxData)
         
         answerEnd = rxData.rfind("done") 
         if answerEnd == -1:
@@ -402,8 +401,8 @@ class Arduino(InstrumentinoController):
 class SysVarDigitalArduino(SysVarDigital):
     def __init__(self, name, pin, compName='', stateToValue={'on': 1, 'off':0}, helpLine='', editable=True, PreSetFunc=None):
         self.stateToValue = stateToValue
-        self.valueToState = {v: k for k, v in stateToValue.items()}
-        SysVarDigital.__init__(self, name, self.stateToValue.keys(), Arduino, compName, helpLine, editable, PreSetFunc)
+        self.valueToState = {v: k for k, v in list(stateToValue.items())}
+        SysVarDigital.__init__(self, name, list(self.stateToValue.keys()), Arduino, compName, helpLine, editable, PreSetFunc)
         self.pin = pin
         self.lastSetState = None
 
@@ -508,7 +507,7 @@ class SysCompArduino(SysComp):
         SysComp.__init__(self, name, vars, Arduino, helpLine)
         
     def FirstTimeOnline(self):
-        for var in self.vars.values():
+        for var in list(self.vars.values()):
             var.FirstTimeOnline()
             
 

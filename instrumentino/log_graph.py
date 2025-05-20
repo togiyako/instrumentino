@@ -1,4 +1,4 @@
-from __future__ import division
+
 __author__ = 'yoelk'
 from datetime import datetime
 import wx
@@ -51,7 +51,7 @@ class LogGraphPanel(wx.Panel):
         self.Bind(wx.EVT_CHECKBOX, self.on_cb_freeze, self.cb_freeze)
         self.slider_label = wx.StaticText(self, -1, "Zoom (min): ")
         self.slider_zoom = wx.Slider(self, -1, value=1, minValue=1, maxValue=60, style=wx.SL_AUTOTICKS | wx.SL_LABELS)
-        self.slider_zoom.SetTickFreq(10, 1)
+        self.slider_zoom.SetTickFreq(10)
         self.Bind(wx.EVT_COMMAND_SCROLL_THUMBTRACK, self.on_slider_width, self.slider_zoom)
 
         # set figure
@@ -65,7 +65,7 @@ class LogGraphPanel(wx.Panel):
         self.axes.set_ybound(0,100)
         self.axes.xaxis_date()
         self.axes.get_xaxis().set_ticks([])
-        self.axes.set_axis_bgcolor('white')
+        self.axes.set_facecolor('white')
         
         self.figure.canvas.mpl_connect('pick_event', self.OnPick)
 
@@ -100,7 +100,7 @@ class LogGraphPanel(wx.Panel):
         lineWidths = [1]*len(colors)+[2]*len(colors)+[4]*len(colors)
         lineWidthCycler = cycle(lineWidths)
         for comp in self.sysComps:
-            for var in comp.vars.values():
+            for var in list(comp.vars.values()):
                 if not var.showInSignalLog:
                     continue
                 
@@ -147,7 +147,7 @@ class LogGraphPanel(wx.Panel):
             legline.set_picker(5)  # 5 pts tolerance
             self.lineLegendDict[legline] = lineName
         
-        self.lineLegendDictReverseDict = {v: k for k, v in self.lineLegendDict.items()}
+        self.lineLegendDictReverseDict = {v: k for k, v in list(self.lineLegendDict.items())}
 
     def HideVariableFromLog(self, name):
         if not self.hasBipolarRange(name):
@@ -191,7 +191,7 @@ class LogGraphPanel(wx.Panel):
                 value = self.allRealData[name].data[-1] if len(self.allRealData[name].data) > 0 else 0
                 
             self.allRealData[name].data += [value]
-            if name in self.realAnalogData.keys():
+            if name in list(self.realAnalogData.keys()):
                 if not self.hasBipolarRange(name):
                     normVal = self.NormalizePositiveValue(value, self.plottedAnalogData[name].yRange)
                     self.plottedAnalogData[name].data += [normVal]
@@ -206,12 +206,12 @@ class LogGraphPanel(wx.Panel):
 
         # write a header with variable names
         if len(self.time) == 1:
-            cfg.signalsLogFile.write('time,' + str(self.allRealData.keys())[1:-1] + '\r')
+            cfg.signalsLogFile.write('time,' + str(list(self.allRealData.keys()))[1:-1] + '\r')
             
         # update the signals' file once in a while
         if len(self.time) % self.dataWriteBulk == 0:
             for idx in range(-1*self.dataWriteBulk,0):
-                cfg.signalsLogFile.write(str(self.time[idx].strftime('%H:%M:%S.%f')) + ',' + str([v.data[idx] for v in self.allRealData.values()])[1:-1] + '\r')
+                cfg.signalsLogFile.write(str(self.time[idx].strftime('%H:%M:%S.%f')) + ',' + str([v.data[idx] for v in list(self.allRealData.values())])[1:-1] + '\r')
                         
         # only show the graph when there's at least 2 data points
         if len(self.time) < 2:
@@ -220,7 +220,7 @@ class LogGraphPanel(wx.Panel):
 
     def StopUpdates(self):
         for idx in range(-1*(len(self.time) % self.dataWriteBulk),0):
-            cfg.signalsLogFile.write(str(self.time[idx].strftime('%H:%M:%S.%f')) + ',' + str([v.data[idx] for v in self.allRealData.values()])[1:-1] + '\r')
+            cfg.signalsLogFile.write(str(self.time[idx].strftime('%H:%M:%S.%f')) + ',' + str([v.data[idx] for v in list(self.allRealData.values())])[1:-1] + '\r')
             
         plt.close()
     
@@ -232,7 +232,7 @@ class LogGraphPanel(wx.Panel):
             self.axes.set_xbound(lower=self.time[max(0,len(self.time)-int(self.slider_zoom.GetValue() * 60 * cfg.app.updateFrequency))],
                                                  upper=self.time[-1])
         
-        for name in self.plottedAnalogData.keys():
+        for name in list(self.plottedAnalogData.keys()):
             self.plottedLines[name].set_ydata(np.append(self.plottedLines[name].get_ydata(), self.plottedAnalogData[name].data[-1]))
             self.plottedLines[name].set_xdata(np.append(self.plottedLines[name].get_xdata(), self.time[-1]))
 

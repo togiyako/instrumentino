@@ -1,4 +1,4 @@
-from __future__ import division
+
 __author__ = 'yoelk'
 
 import wx
@@ -9,8 +9,8 @@ import  wx.lib.filebrowsebutton as filebrowse
 import wx.lib.masked as  masked
 from instrumentino import cfg
 import pickle
-from executable_listctrl import ExecutableListCtrl
-from method import SysMethod
+from .executable_listctrl import ExecutableListCtrl
+from .method import SysMethod
 
 class MethodsListCtrl(ExecutableListCtrl):
     '''
@@ -34,7 +34,7 @@ class MethodsListCtrl(ExecutableListCtrl):
                                                   dialogTitle='Choose a method file',
                                                   startDirectory=cfg.UserFilesPath(),
                                                   fileMask=cfg.methodWildcard,
-                                                  fileMode=wx.OPEN,
+                                                  fileMode=wx.FD_OPEN,
                                                   changeCallback=listDataItem.onPathChanged)
         filename = listDataItem.methodFileName
         if not listDataItem.checkSystemCompatibility(filename):

@@ -1,4 +1,4 @@
-from __future__ import division
+
 from instrumentino.controllers.arduino import SysCompArduino, SysVarDigitalArduino,\
     SysVarAnalogArduinoUnipolar
 __author__ = 'yoelk'

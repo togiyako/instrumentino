@@ -1,4 +1,4 @@
-from __future__ import division
+
 from instrumentino.controllers.arduino.dac import DacSpiMCP4922, DacI2cMAX517
 __author__ = 'yoelk'
 
@@ -69,7 +69,7 @@ class InstrumentinoApp(wx.App):
         self.mainFrame.Bind(wx.EVT_MENU, self.OnAbout, id=wx.xrc.XRCID('aboutMenuItem'))
         
         menusDict = dict(self.mainFrame.GetMenuBar().GetMenus())
-        commMenu = [key for key, value in menusDict.iteritems() if value == 'Comm'][0]
+        commMenu = [key for key, value in menusDict.items() if value == 'Comm'][0]
         for comp in self.sysComps:
             cfg.AddControllerIfNeeded(comp.controllerClass)
         
@@ -110,9 +110,9 @@ class InstrumentinoApp(wx.App):
 
         # This makes sure both pages are drawn
         notebook = wx.xrc.XRCCTRL(self.mainFrame, 'methodsAndSequences')
-        notebook.SendPageChangedEvent(0,1)        
+        #notebook.SendPageChangedEvent(0,1)        
         self.mainFrame.GetSizer().Fit(self.mainFrame)        
-        notebook.SendPageChangedEvent(1,0)
+        #notebook.SendPageChangedEvent(1,0)
         
         # main frame
         self.splitter.SetSashPosition(400, True)

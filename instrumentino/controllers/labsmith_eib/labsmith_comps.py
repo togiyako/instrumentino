@@ -1,4 +1,4 @@
-from __future__ import division
+
 from instrumentino.controllers.labsmith_eib import SysCompLabSmith,\
     SysVarDigitalLabSmith_SyringeSpeed, SysVarDigitalLabSmith_SyringePower,\
     SysVarDigitalLabSmith_SyringeMaxVolume, SysVarDigitalLabSmith_SyringePlunger,\

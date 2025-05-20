@@ -1,4 +1,4 @@
-from __future__ import division
+
 from instrumentino.util import SerialUtil
 __author__ = 'yoelk'
 

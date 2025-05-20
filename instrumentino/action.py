@@ -1,11 +1,11 @@
-from __future__ import division
+
 __author__ = 'yoelk'
 
 from instrumentino import cfg
 import wx
 import time
 import datetime
-from executable_listctrl import RunnableItem
+from .executable_listctrl import RunnableItem
 
 class SysActionParam(object):
     '''
@@ -160,7 +160,7 @@ class SysAction(RunnableItem):
         Set the parameters' panel
         '''
         paramsPanel = wx.Panel(parent)
-        sizer = wx.GridSizer(0,2)
+        sizer = wx.GridSizer(0, 2, 5, 5)
         for param in self.params:
             unitsStr = ' (' + param.units + ')' if param.units != '' else ''
             sizer.Add(wx.StaticText(paramsPanel, -1, param.name + unitsStr + ': '))

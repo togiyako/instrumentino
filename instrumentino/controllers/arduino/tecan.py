@@ -1,4 +1,4 @@
-from __future__ import division
+
 from instrumentino.controllers.arduino import SysCompArduino
 from collections import OrderedDict
 __author__ = 'yoelk'
@@ -124,8 +124,8 @@ class TecanSia(SysCompArduino):
     def speedToSecondsPerStrokeIndex(self, microLitPerSec, microstepMode = 'N1'):
         miliLitPerSec = microLitPerSec / 1000
         secPerStroke = 1 / (miliLitPerSec / self.pumpVolumeMiliLit)
-        for indexString, val in self.strokeToSeconds[microstepMode].items():
+        for indexString, val in list(self.strokeToSeconds[microstepMode].items()):
             if secPerStroke < val:
                 return indexString
         # if reached here, return the slowest possibility
-        return self.strokeToSeconds[microstepMode].keys()[-1]
+        return list(self.strokeToSeconds[microstepMode].keys())[-1]
