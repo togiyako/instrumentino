@@ -9,6 +9,8 @@ Original project link :https://github.com/yoelk/instrumentino.git
 
 - Python 3.10
 - [wxPython 4.2.3](https://wxpython.org/)
+- pyserial
+- matplotlib
 
 ## Installation
 
