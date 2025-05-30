@@ -1,0 +1,3 @@
+[submodule "modules/controli"]
+	path = modules/controli
+	url = https://github.com/togiyako/controlino.git

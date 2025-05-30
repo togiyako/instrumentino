@@ -1,10 +1,9 @@
 
 # Instrumentino GUI (Python 3.10 + wxPython 4.2.3)
 
-instrumentino
-=============
+Instrumentino is a modular open-source platform for graphical user interfaces designed to control experimental devices based on Arduino, which has been rewritten for the newer version of Python and wxPython libraries.
 
-Instrumentino is an open-source modular graphical user interface framework for controlling Arduino based experimental instruments
+Original project link :https://github.com/yoelk/instrumentino.git
 
 ## Requirements
 
@@ -13,7 +12,7 @@ Instrumentino is an open-source modular graphical user interface framework for c
 
 ## Installation
 
-git clone https://github.com/yourusername/instrumentino.git
+git clone https://github.com/togiyako/instrumentino.git
 
 cd instrumentino
 
@@ -22,3 +21,13 @@ pip install -e .
 
 # Or conventional installation
 pip install .
+
+## Tests
+
+To start testing, you need to follow these steps :
+    - switch to developer mode;
+    - install python3.10 and wxPython 4.2.3
+    - run the command of your choice:
+        - python test_system.py
+        - cd documents/example_run_container.py/container.py
+        - cd documents/example_run_ArduinoPins.py/ArduinoPins.py
